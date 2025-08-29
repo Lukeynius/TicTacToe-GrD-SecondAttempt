@@ -60,13 +60,19 @@ public class TicTacToe {
                 }
 
             }
+
+            // show the current board state
+            board.print();
+            // check if the currentplayer has won
+            if (hasWinner()) {
+                System.out.println("Spieler (" + currentPlayer.getMarker() + ") hat gewonnen!");
+                break;
+            }
             // check if the board is full
             if (board.isFull()) {
                 System.out.println("Unentschieden!");
                 break;
             }
-            // show the current board state
-            board.print();
             // switch the current player
             switchCurrentPlayer();
         }
@@ -76,6 +82,32 @@ public class TicTacToe {
     // switch the current player
     private void switchCurrentPlayer() {
         currentPlayer = (currentPlayer == player1) ? player2 : player1;
+    }
+
+    // check if a player has won
+    private boolean hasWinner() {
+        int[][][] kombis = {
+                {{0, 0}, {0, 1}, {0, 2}},
+                {{1, 0}, {1, 1}, {1, 2}},
+                {{2, 0}, {2, 1}, {2, 2}},
+                {{0, 0}, {1, 0}, {2, 0}},
+                {{0, 1}, {1, 1}, {2, 1}},
+                {{0, 2}, {1, 2}, {2, 2}},
+                {{0, 0}, {1, 1}, {2, 2}},
+                {{0, 2}, {1, 1}, {2, 0}}
+        };
+
+        for (int[][] kombi : kombis) {
+            char m1 = board.isCellEmpty(kombi[0][0], kombi[0][1]);
+            char m2 = board.isCellEmpty(kombi[1][0], kombi[1][1]);
+            char m3 = board.isCellEmpty(kombi[2][0], kombi[2][1]);
+
+            if (m1 != ' ' && m1 == m2 && m2 == m3) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
